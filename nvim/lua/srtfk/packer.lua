@@ -11,6 +11,7 @@ return require('packer').startup(function(use)
 		-- or                            , branch = '0.1.x',
 		requires = { {'nvim-lua/plenary.nvim'} }
 	}
+	use 'mfussenegger/nvim-jdtls'
 	use {
 		'VonHeikemen/lsp-zero.nvim',
 		requires = {
