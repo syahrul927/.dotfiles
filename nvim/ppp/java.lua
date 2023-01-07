@@ -1,29 +1,29 @@
 local jdtls_dir = vim.fn.stdpath('data') .. '/mason/packages/jdtls'
-local config_dir = jdtls_dir .. '/config_mac'
+local config_dir = jdtls_dir .. '/config_linux'
 local plugins_dir = jdtls_dir .. '/plugins/'
 local path_to_jar = plugins_dir .. 'org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar'
 local lombok_dir = jdtls_dir .. '/lombok.jar'
 
 local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle"  }
 local root_dir = require("jdtls.setup").find_root(root_markers)
+local path_java_8 = "/home/srtfk/.sdkman/candidates/java/8.0.345-tem/"
 if root_dir == "" then
 	return
 end
 
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local workspace_dir = vim.fn.stdpath('data') .. '/site/java/workspace-root/' .. project_name
-os.execute("mkdir " .. workspace_dir)
 
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
+
 local config = {
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
   cmd = {
-
     -- 
     'java', -- or '/path/to/java17_or_newer/bin/java'
             -- depends on if `java` is in your $PATH env variable and if it points to the right version.
-
+						-- config java 8 command
     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
     '-Dosgi.bundles.defaultStartLevel=4',
     '-Declipse.product=org.eclipse.jdt.ls.core.product',
@@ -31,9 +31,10 @@ local config = {
     '-Dlog.level=ALL',
 		'-javaagent:' .. lombok_dir,
     '-Xms1g',
-    '--add-modules=ALL-SYSTEM',
-    '--add-opens', 'java.base/java.util=ALL-UNNAMED',
-    '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+		'-noverify',
+    --'--add-modules=ALL-SYSTEM',
+    --'--add-opens', 'java.base/java.util=ALL-UNNAMED',
+    --'--add-opens', 'java.base/java.lang=ALL-UNNAMED',
     -- 💀
     '-jar', path_to_jar,
          -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
@@ -63,6 +64,14 @@ local config = {
   -- for a list of options
   settings = {
     java = {
+			configuration = {
+				runtimes = {
+					{
+            name = "JavaSE-1.8",
+            path = "/home/srtfk/.sdkman/candidates/java/8.0.345-tem/"
+					}
+				}
+			}
     }
   },
 

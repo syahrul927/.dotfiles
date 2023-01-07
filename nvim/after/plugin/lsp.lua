@@ -1,10 +1,12 @@
 local lsp = require('lsp-zero')
 lsp.preset('recommended')
+
+--disable jdtls im looking for this for a weeks asuw
 lsp.ensure_installed({
 	"tsserver",
 	"eslint",
 	"sumneko_lua",
-	"jdtls",
+	"jdtls"
 })
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
@@ -38,8 +40,15 @@ lsp.on_attach(function(client, bufnr)
 end)
 lsp.setup()
 vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
+	enabled = true,
+	virtual_text = true,
+	underlines = {
+		errors = { "underline" },
+		hints = { "underline" },
+		warnings = { "underline" },
+		information = { "underline" },
+	},
+	signs = true,
   update_in_insert = false,
   underline = true,
   severity_sort = false,

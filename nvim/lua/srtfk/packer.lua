@@ -4,6 +4,11 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
+	use({ "folke/tokyonight.nvim" })
+	use {
+		'nvim-tree/nvim-tree.lua',
+	}
+	--
 	-- Packer can manage itself
 	use 'wbthomason/packer.nvim'
 	use {
@@ -11,7 +16,7 @@ return require('packer').startup(function(use)
 		-- or                            , branch = '0.1.x',
 		requires = { {'nvim-lua/plenary.nvim'} }
 	}
-	use 'mfussenegger/nvim-jdtls'
+	--use 'mfussenegger/nvim-jdtls'
 	use {
 		'VonHeikemen/lsp-zero.nvim',
 		requires = {
@@ -35,7 +40,7 @@ return require('packer').startup(function(use)
 	}
 	-- Color Scheme Catppuccin Mocha
 	use { 
-		"catppuccin/nvim", 
+		"catppuccin/nvim",
 		as = "catppuccin",
 		config = function()
 			vim.cmd('colorscheme catppuccin')
@@ -43,4 +48,25 @@ return require('packer').startup(function(use)
 	}
 	use('nvim-treesitter/nvim-treesitter', {run =':TSUpdate'})
 	use('theprimeagen/harpoon')
+	use {
+		'nvim-lualine/lualine.nvim',
+		requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+	}
+	use {"akinsho/toggleterm.nvim", tag = '*', config = function()
+		require("toggleterm").setup({
+			size=20,
+			open_mapping = [[<c-\>]],
+			direction="float",
+			float_opts = {
+				border = "curved",
+				winblend = 0,
+				hightlight = {
+					border = "Normal",
+					background = "Normal"
+				}
+			}
+
+		})
+	end}
+	use "terrortylor/nvim-comment"
 end)
